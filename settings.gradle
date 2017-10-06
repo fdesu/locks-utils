@@ -1,3 +1,4 @@
 rootProject.name = 'locks-utils'
 include 'locks-instrumentation-agent'
+include 'test-app'
 
