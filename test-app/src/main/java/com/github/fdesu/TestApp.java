@@ -1,3 +1,5 @@
+package com.github.fdesu;
+
 public class TestApp {
 
     public static void main(String[] args) {
