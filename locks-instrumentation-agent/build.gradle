@@ -1,11 +1,15 @@
 description = 'Javaagent that instruments locks with hooks'
 
+dependencies {
+    compile group: 'org.ow2.asm', name: 'asm', version: '5.2'
+}
+
 jar {
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
     manifest {
         attributes(
-                'Main-Class': 'com.github.fdesu.lia.Bootstrap',
+                'Premain-Class': 'com.github.fdesu.lia.Bootstrap',
                 'Can-Redefine-Classes': 'true',
                 'Can-Retransform-Classes': 'false',
                 'Can-Set-Native-Method-Prefix': 'false',
