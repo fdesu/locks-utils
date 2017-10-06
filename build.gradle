@@ -1,18 +1,20 @@
-apply plugin: 'java'
-apply plugin: 'idea'
+allprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
 
-group = 'com.github.fdesu'
-version = '0.1-SNAPSHOT'
+    group = 'com.github.fdesu'
+    version = '0.1-SNAPSHOT'
 
-repositories {
-    jcenter()
-}
+    repositories {
+        jcenter()
+    }
 
-dependencies {
-    testCompile 'junit:junit:4.12'
-}
+    dependencies {
+        testCompile 'junit:junit:4.12'
+    }
 
-tasks.withType(JavaCompile) {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
 }

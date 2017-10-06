@@ -1,1 +1,3 @@
 rootProject.name = 'locks-utils'
+include 'locks-instrumentation-agent'
+
