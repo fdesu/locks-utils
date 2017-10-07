@@ -5,7 +5,6 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 public class MatchingClassDelegatingTransformer implements ClassFileTransformer {
-
 	private final String packagePrefix;
 	private final ClassFileTransformer delegate;
 
@@ -15,11 +14,10 @@ public class MatchingClassDelegatingTransformer implements ClassFileTransformer 
 	}
 
 	@Override
-	public byte[] transform(Module module, ClassLoader loader, String className, Class<?> classBeingRedefined,
+	public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
 			ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
 		if (className.startsWith(packagePrefix)) {
-			System.out.println("transforming: " + className);
-			return delegate.transform(module, loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
+			return delegate.transform(loader, className, classBeingRedefined, protectionDomain, classfileBuffer);
 		}
 
 		return null;
