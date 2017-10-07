@@ -4,13 +4,17 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
-public class MonitorInstructionsClassVisitor extends ClassVisitor {
+public class MonitorInstructionsClassVisitor extends ClassVisitor implements ModifyingVisitor {
 
-	public boolean modified;
+	private boolean modified;
+	private final Set<MonitorInstructionsMethodVisitor> visitors;
 
 	public MonitorInstructionsClassVisitor(int api) {
 		super(api);
+		visitors = new HashSet<>();
 	}
 
 	public boolean isModified() {
@@ -24,6 +28,14 @@ public class MonitorInstructionsClassVisitor extends ClassVisitor {
 		if (MonitorUtils.ifSynchronizedMethod(access)) {
 			MonitorUtils.onSynchronizedMethod(access, name, desc);
 		}
-		return new MonitorInstructionsMethodVisitor(api);
+		MonitorInstructionsMethodVisitor methodVisitor = new MonitorInstructionsMethodVisitor(api);
+		visitors.add(methodVisitor);
+		return methodVisitor;
+	}
+
+	@Override
+	public void visitEnd() {
+		super.visitEnd();
+		modified |= visitors.stream().anyMatch(ModifyingVisitor::isModified);
 	}
 }
