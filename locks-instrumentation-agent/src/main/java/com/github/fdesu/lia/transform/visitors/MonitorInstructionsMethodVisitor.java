@@ -7,12 +7,13 @@ public class MonitorInstructionsMethodVisitor extends MethodVisitor implements M
 
 	private boolean modified;
 
-	public MonitorInstructionsMethodVisitor(int api) {
-		super(api);
+	public MonitorInstructionsMethodVisitor(int api, MethodVisitor methodVisitor) {
+		super(api, methodVisitor);
 	}
 
 	@Override
 	public void visitInsn(int opcode) {
+		super.visitInsn(opcode);
 		switch (opcode) {
 			case Opcodes.MONITORENTER:
 				MonitorUtils.onMonitorEnter(opcode);

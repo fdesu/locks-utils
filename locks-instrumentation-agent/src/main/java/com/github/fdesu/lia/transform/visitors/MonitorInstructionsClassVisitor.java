@@ -12,8 +12,8 @@ public class MonitorInstructionsClassVisitor extends ClassVisitor implements Mod
 	private boolean modified;
 	private final Set<MonitorInstructionsMethodVisitor> visitors;
 
-	public MonitorInstructionsClassVisitor(int api) {
-		super(api);
+	public MonitorInstructionsClassVisitor(int api, ClassVisitor visitor) {
+		super(api, visitor);
 		visitors = new HashSet<>();
 	}
 
@@ -28,7 +28,8 @@ public class MonitorInstructionsClassVisitor extends ClassVisitor implements Mod
 		if (MonitorUtils.ifSynchronizedMethod(access)) {
 			MonitorUtils.onSynchronizedMethod(access, name, desc);
 		}
-		MonitorInstructionsMethodVisitor methodVisitor = new MonitorInstructionsMethodVisitor(api);
+		MonitorInstructionsMethodVisitor methodVisitor = new MonitorInstructionsMethodVisitor(api,
+				super.visitMethod(access, name, desc, signature, exceptions));
 		visitors.add(methodVisitor);
 		return methodVisitor;
 	}
